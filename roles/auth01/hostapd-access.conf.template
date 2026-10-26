@@ -1,0 +1,31 @@
+# hostapd as a wired IEEE 802.1X authenticator (the "switch port" role).
+# AUTH01 relays EAPOL from the access port to NPS over RADIUS and never
+# terminates EAP itself (eap_server=0): every decision is made by NPS.
+interface=access
+driver=wired
+ctrl_interface=/run/hostapd
+ctrl_interface_group=0
+
+logger_syslog=-1
+logger_syslog_level=1
+logger_stdout=-1
+logger_stdout_level=1
+
+ieee8021x=1
+eapol_version=2
+eap_server=0
+# Wired ports have no association, so EAPOL goes to the PAE group address
+# 01:80:C2:00:00:03 instead of a station MAC.
+use_pae_group_addr=1
+# Re-authenticate hourly, the way a switch would.
+eap_reauth_period=3600
+
+own_ip_addr={{AUTH_IP}}
+nas_identifier={{NAS_ID}}
+auth_server_addr={{RADIUS_SERVER}}
+auth_server_port=1812
+auth_server_shared_secret={{RADIUS_SECRET}}
+# hostapd labels every request NAS-Port-Type = IEEE 802.11 unless told
+# otherwise. Send Ethernet (15) so NPS can tell a wired port from Wi-Fi and the
+# wired network policy is the one that matches.
+radius_auth_req_attr=61:d:15

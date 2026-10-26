@@ -1,0 +1,14 @@
+[Unit]
+Description=Wired IEEE 802.1X authenticator on the access port (hostapd, driver=wired)
+After=network-online.target nftables.service
+Wants=network-online.target
+Requires=nftables.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/hostapd /etc/hostapd/wired-access.conf
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

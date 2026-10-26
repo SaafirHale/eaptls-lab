@@ -1,0 +1,40 @@
+#cloud-config
+# AUTH01: the lab's "switch". Debian + hostapd (wired driver) + an nftables
+# bridge filter that only forwards traffic from MACs NPS has accepted.
+hostname: {{HOSTNAME}}
+fqdn: {{HOSTNAME}}.{{DOMAIN}}
+manage_etc_hosts: true
+timezone: America/New_York
+
+users:
+  - name: labadmin
+    shell: /bin/bash
+    groups: [sudo, adm]
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    lock_passwd: true
+    ssh_authorized_keys:
+      - "{{SSH_PUBKEY}}"
+
+ssh_pwauth: false
+package_update: true
+packages:
+  - hostapd
+  - eapoltest
+  - nftables
+  - openssl
+  - tcpdump
+
+write_files:
+{{WRITE_FILES}}
+
+runcmd:
+  # The distro's own hostapd unit expects /etc/hostapd/hostapd.conf; this lab
+  # runs its own unit with an explicit config instead.
+  - [systemctl, disable, --now, hostapd.service]
+  - [chmod, "0755", /usr/local/sbin/dot1x-gate.sh]
+  - [chmod, "0600", /etc/hostapd/wired-access.conf]
+  - [systemctl, daemon-reload]
+  - [systemctl, enable, --now, nftables.service]
+  - [systemctl, enable, --now, dot1x-hostapd.service, dot1x-gate.service]
+
+final_message: "AUTH01 ready after $UPTIME s"

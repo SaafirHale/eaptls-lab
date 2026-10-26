@@ -1,0 +1,17 @@
+[Unit]
+Description=Open/close the access port on hostapd authorization events
+After=dot1x-hostapd.service
+BindsTo=dot1x-hostapd.service
+
+[Service]
+Type=simple
+# Wait for hostapd's control socket before attaching.
+ExecStartPre=/bin/sh -c 'for i in $(seq 1 30); do [ -S /run/hostapd/access ] && exit 0; sleep 1; done; exit 1'
+# A restart of hostapd forgets every authorization, so start from a closed port.
+ExecStartPre=/usr/sbin/nft flush set bridge dot1x authorized
+ExecStart=/usr/sbin/hostapd_cli -p /run/hostapd -i access -a /usr/local/sbin/dot1x-gate.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=dot1x-hostapd.service

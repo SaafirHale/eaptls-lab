@@ -1,0 +1,30 @@
+# cloud-init network config v2. NICs are matched by the static MACs set on the
+# Hyper-V adapters, renamed to what they do, and bridged: br0 carries AUTH01's
+# own address (the RADIUS client address NPS knows) and forwards authorized
+# client traffic from "access" to "uplink".
+version: 2
+ethernets:
+  uplink:
+    match:
+      macaddress: "{{UPLINK_MAC}}"
+    set-name: uplink
+    dhcp4: false
+  access:
+    match:
+      macaddress: "{{ACCESS_MAC}}"
+    set-name: access
+    dhcp4: false
+bridges:
+  br0:
+    interfaces: [uplink, access]
+    dhcp4: false
+    addresses: ["{{AUTH_IP}}/{{PREFIX_LENGTH}}"]
+    routes:
+      - to: default
+        via: "{{GATEWAY}}"
+    nameservers:
+      addresses: ["{{DNS1}}", "{{DNS2}}"]
+      search: ["{{DOMAIN}}"]
+    parameters:
+      stp: false
+      forward-delay: 0

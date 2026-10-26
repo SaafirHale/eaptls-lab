@@ -1,0 +1,10 @@
+# Generated at build time; never committed.
+secrets/
+*.clixml
+*.pfx
+*.key
+*.pem
+*.vhdx
+*.vhd
+*.iso
+out/

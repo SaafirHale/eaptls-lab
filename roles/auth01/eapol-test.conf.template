@@ -1,0 +1,14 @@
+# eapol_test profile: a software supplicant that speaks EAP-TLS straight to NPS
+# over RADIUS from AUTH01, using CLIENT01's own certificate and key (exported by
+# demo/Export-LabClientIdentity.ps1). It exercises exactly what NPS checks
+# (chain, EKU, revocation, account mapping, policy), minus the Windows supplicant
+# and the EAPOL hop. Useful as a fallback and as a scripted test.
+network={
+    key_mgmt=IEEE8021X
+    eap=TLS
+    identity="host/{{CLIENT_FQDN}}"
+    ca_cert="/etc/eaptls/lab-root-ca.pem"
+    client_cert="/etc/eaptls/client.pem"
+    private_key="/etc/eaptls/client.key"
+    eapol_flags=0
+}
