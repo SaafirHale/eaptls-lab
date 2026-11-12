@@ -38,8 +38,8 @@ Fill in as it runs. `Build-Lab.ps1` writes a full transcript to `out\build-<time
 
 | Step | Expected | Observed |
 | --- | --- | --- |
-| `.\host\Enable-HyperV.ps1`, reboot | `Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All` reports Enabled | |
-| Media in `C:\Lab\iso\` | Three files from README "Media" | |
+| `.\host\Enable-HyperV.ps1`, reboot | `Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All` reports Enabled | 2026-11-11: `Win32_ComputerSystem.HypervisorPresent = True`, Hyper-V PowerShell module present |
+| Media in `C:\Lab\iso\` | Three files from README "Media" | Debian: `cloud.debian.org/images/cloud/trixie/latest/` no longer lists `genericcloud` (2026-11-11), so the lab uses `debian-13-generic-amd64.tar.xz` (build 20261111-2659, kernel 6.12.116, cloud-init 25.1.4), 322,982,872 bytes, SHA-512 matches `SHA512SUMS`. Windows ISOs: not yet downloaded |
 
 ### Stages
 

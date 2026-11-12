@@ -17,8 +17,8 @@ the "switch" stay exactly as they were, the RADIUS server loses its route to the
 NPS starts rejecting a certificate it accepted a minute earlier, with the Security-log event
 and reason code that say why.
 
-**Status:** scripts written, linted and template-checked on 2026-10-26. The lab has not
-been run end to end yet: Hyper-V is not enabled on the build laptop. [`RUNLOG.md`](RUNLOG.md)
+**Status:** scripts written, linted and template-checked on 2026-10-26; Hyper-V enabled on
+the build laptop 2026-11-11. The first end-to-end run is next, and [`RUNLOG.md`](RUNLOG.md)
 records each stage as it runs.
 
 ## Architecture
@@ -137,7 +137,7 @@ exportable.
 | DC01 | Windows Server 2025 Standard eval, Desktop Experience | 2 / 3 GB | 40 GB differencing |
 | CA01 | Windows Server 2025 Standard eval, Core | 1.5 / 2 GB | 40 GB differencing |
 | CLIENT01 | Windows 11 Enterprise eval, vTPM | 4 / 4 GB | 64 GB differencing |
-| AUTH01 | Debian 13 genericcloud | 0.5 GB static | 8 GB |
+| AUTH01 | Debian 13 generic cloud image | 0.5 GB static | 8 GB |
 
 Peak about 9.5 GB for VMs, leaving the host roughly 6 GB on a 16 GB laptop. Windows VMs sit
 on differencing disks over one base per image, so three Windows VMs cost roughly two
@@ -149,9 +149,9 @@ applied images of disk.
 | --- | --- | --- |
 | `WindowsServer2025-Eval.iso` | [Evaluation Center: Windows Server 2025](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2025) (registration form; 180-day eval) | 8,152,356,864 bytes |
 | `Windows11-Enterprise-Eval.iso` | [Evaluation Center: Windows 11 Enterprise](https://www.microsoft.com/en-us/evalcenter/download-windows-11-enterprise) (registration form; 90-day eval) | 8,225,329,152 bytes |
-| `debian-13-genericcloud-amd64.tar.xz` | [cloud.debian.org: trixie/latest](https://cloud.debian.org/images/cloud/trixie/latest/) | about 217 MB |
+| `debian-13-generic-amd64.tar.xz` | [cloud.debian.org: trixie/latest](https://cloud.debian.org/images/cloud/trixie/latest/), checked against `SHA512SUMS` | 322,982,872 bytes (build 20261111-2659) |
 
-Sizes are the download headers observed on 2026-10-26; Microsoft refreshes eval ISOs, so
+Windows sizes are the download headers observed on 2026-10-26; Microsoft refreshes eval ISOs, so
 expect drift. The two Windows ISOs sit behind a registration form, so they are downloaded
 by hand. No product keys are needed.
 

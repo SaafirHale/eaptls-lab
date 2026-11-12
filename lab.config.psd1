@@ -20,9 +20,10 @@
         ServerDesktopImage = '^Windows Server 2025 Standard Evaluation \(Desktop Experience\)$'
         ClientIso          = 'Windows11-Enterprise-Eval.iso'
         ClientImage        = '^Windows 11 Enterprise Evaluation$'
-        # Debian 13 genericcloud image (tar.xz holding disk.raw) for the authenticator VM.
+        # Debian 13 generic cloud image (tar.xz holding disk.raw) for the authenticator VM.
+        # "generic" carries the full linux-image-amd64 kernel and a signed shim/GRUB.
         # https://cloud.debian.org/images/cloud/trixie/latest/
-        LinuxImageArchive  = 'debian-13-genericcloud-amd64.tar.xz'
+        LinuxImageArchive  = 'debian-13-generic-amd64.tar.xz'
     }
 
     Domain = @{

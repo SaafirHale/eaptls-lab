@@ -2,7 +2,7 @@
 #Requires -RunAsAdministrator
 <#
 .SYNOPSIS
-    Builds AUTH01, the wired 802.1X authenticator, from the Debian genericcloud image. Idempotent.
+    Builds AUTH01, the wired 802.1X authenticator, from the Debian generic cloud image. Idempotent.
 
 .DESCRIPTION
     Debian publishes cloud images as raw disks; Hyper-V Generation 2 boots VHDX.
@@ -35,7 +35,7 @@ $root = $Config.Paths.Root
 $repo = Get-LabRepoRoot
 
 # --- 1. Base VHDX from the cloud image (once) -------------------------------------
-$baseVhdx = Join-Path $root 'base\debian13-genericcloud.vhdx'
+$baseVhdx = Join-Path $root 'base\debian13-generic.vhdx'
 if (-not (Test-Path -LiteralPath $baseVhdx)) {
     $archive = Join-Path $Config.Paths.Iso $Config.Media.LinuxImageArchive
     if (-not (Test-Path -LiteralPath $archive)) { throw "Missing $archive (see README, Media)." }
